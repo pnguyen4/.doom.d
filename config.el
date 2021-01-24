@@ -9,7 +9,7 @@
 (setq doom-font (font-spec :family "Liberation Mono" :size 12)
       doom-big-font (font-spec :family "Liberation Mono" :size 30)
       doom-serif-font (font-spec :family "Liberation Serif" :size 12)
-      doom-variable-pitch-font (font-spec :family "Liberation Mono" :size 18))
+      doom-variable-pitch-font (font-spec :family "Liberation Mono" :size 16))
 
 ;; Use this function to list available fonts (uncomment and evaluate with "gr"):
 ;; (print (font-family-list))
@@ -29,12 +29,12 @@
                        :background ,(doom-lighten (face-attribute 'lazy-highlight :background) 0.4))
   `(markdown-language-keyword-face :background nil
                                    :foreground ,(face-attribute 'font-lock-comment-face :foreground))
-  '(markdown-header-face-1 :height 1.25 :weight extra-bold :inherit markdown-header-face)
-  '(markdown-header-face-2 :height 1.15 :weight bold       :inherit markdown-header-face)
-  '(markdown-header-face-3 :height 1.08 :weight bold       :inherit markdown-header-face)
-  '(markdown-header-face-4 :height 1.00 :weight bold       :inherit markdown-header-face)
-  '(markdown-header-face-5 :height 0.90 :weight bold       :inherit markdown-header-face)
-  '(markdown-header-face-6 :height 0.75 :weight extra-bold :inherit markdown-header-face))
+  '(markdown-header-face-1 :height 1.50 :weight extra-bold :inherit markdown-header-face)
+  '(markdown-header-face-2 :height 1.40 :weight bold       :inherit markdown-header-face)
+  '(markdown-header-face-3 :height 1.30 :weight bold       :inherit markdown-header-face)
+  '(markdown-header-face-4 :height 1.20 :weight bold       :inherit markdown-header-face)
+  '(markdown-header-face-5 :height 1.10 :weight bold       :inherit markdown-header-face)
+  '(markdown-header-face-6 :height 1.00 :weight bold       :inherit markdown-header-face))
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!

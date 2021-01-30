@@ -21,14 +21,20 @@
 (setq doom-theme 'tao-yang)
 (custom-theme-set-faces!
   'tao-yang
+
+  ;; Boxes make which-key menu ugly
   '(font-lock-function-name-face :box nil :slant italic)
+
+  ;; EIN specifics
+  `(ein:cell-input-area :background ,(doom-lighten (face-attribute 'lazy-highlight :background) 0.25))
 
   ;; Markdown Mode Specifics
   '(markdown-markup-face :inherit markdown-language-keyword-face)
   `(markdown-code-face :extend t
-                       :background ,(doom-lighten (face-attribute 'lazy-highlight :background) 0.4))
+                       :background ,(doom-lighten (face-attribute 'lazy-highlight :background) 0.25))
   `(markdown-language-keyword-face :background nil
                                    :foreground ,(face-attribute 'font-lock-comment-face :foreground))
+  '(markdown-header-face :font doom-serif-font)
   '(markdown-header-face-1 :height 1.50 :weight extra-bold :inherit markdown-header-face)
   '(markdown-header-face-2 :height 1.40 :weight bold       :inherit markdown-header-face)
   '(markdown-header-face-3 :height 1.30 :weight bold       :inherit markdown-header-face)
@@ -59,6 +65,11 @@
 (map! "C-S-V" #'yank
       "C-S-C" #'kill-ring-save)
 
+;; Quality of life fixes for EIN
+(setq ein:output-area-inlined-images t)
+(setq ein:polymode t)
+(map! :map ein:notebook-mode-map "C-c C-\\" #'ein:worksheet-execute-all-cells)
+
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading external *.el files relative to this one
@@ -69,8 +80,7 @@
 ;;   `require' or `use-package'.
 ;; - `map!' for binding new keys
 ;;
-;; To get information about any of these functions/macros, move the cursor over
-;; the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
+;; To get information about any of these functions/macros, move the cursor over the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
 ;; This will open documentation for it, including demos of how they are used.
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how

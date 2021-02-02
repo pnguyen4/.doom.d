@@ -7,6 +7,8 @@
 
 (package! tao-theme)
 (package! mixed-pitch)
+(package! org-super-agenda)
+(package! org-fancy-priorities)
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)

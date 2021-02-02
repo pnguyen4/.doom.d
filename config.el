@@ -20,6 +20,11 @@
 (add-hook! 'Info-mode-hook #'mixed-pitch-mode)
 
 ;; Org Mode
+(use-package! org-super-agenda
+  :after org-agenda
+  :config (org-super-agenda-mode))
+(use-package! org-fancy-priorities
+  :hook (org-mode . org-fancy-priorities-mode))
 (after! org
   (setq org-directory "~/org/"
         org-agenda-files '("~/org/agenda.org")
@@ -27,6 +32,14 @@
         org-agenda-skip-deadline-if-done t
         org-agenda-skip-scheduled-if-done t
         org-todo-keywords '((sequence "TODO(t)" "INPROGRESS(i)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)"))
+        org-fancy-priorities-list '("HIGH" "MID" "LOW")
+        org-super-agenda-groups '((:name "Today" :time-grid t :scheduled today)
+                                  (:name "Due today" :deadline today)
+                                  (:name "Important" :priority "A")
+                                  (:name "Overdue" :deadline past)
+                                  (:name "Due soon" :deadline future))
+        org-priority-faces '((?A :foreground "#ff0000")
+                             (?C :foreground "#b0ada2"))
         org-todo-keyword-faces
         '(("TODO" :foreground "#7c7c75" :weight normal :underline t)
           ("WAITING" :foreground "#9f7efe" :weight normal :underline t)
@@ -70,14 +83,12 @@
   '(font-lock-function-name-face :box nil :slant italic)
 
   ;; EIN specifics
-  `(ein:cell-input-area :background ,(doom-lighten (face-attribute 'lazy-highlight :background) 0.25))
+  `(ein:cell-input-area :background "#faf7ee")
 
   ;; Markdown Mode Specifics
   '(markdown-markup-face :inherit markdown-language-keyword-face)
-  `(markdown-code-face :extend t
-                       :background ,(doom-lighten (face-attribute 'lazy-highlight :background) 0.25))
-  `(markdown-language-keyword-face :background nil
-                                   :foreground ,(face-attribute 'font-lock-comment-face :foreground))
+  '(markdown-code-face :extend t :background "#faf7ee")
+  '(markdown-language-keyword-face :background nil :foreground "#b0ada2")
   '(markdown-header-face-1 :height 1.50 :weight extra-bold :inherit markdown-header-face)
   '(markdown-header-face-2 :height 1.40 :weight bold       :inherit markdown-header-face)
   '(markdown-header-face-3 :height 1.30 :weight bold       :inherit markdown-header-face)
@@ -93,12 +104,11 @@
   '(org-level-4        :height 1.00 :weight bold)
   '(org-level-5        :height 1.00 :weight bold)
   '(org-level-6        :height 1.00 :weight bold)
-  `(org-headline-done :weight normal :strike-through t
-                      :foreground ,(face-attribute 'font-lock-comment-face :foreground))
-  `(org-meta-line :background ,(doom-darken (face-attribute 'lazy-highlight :background) 0.05) :extend t)
-  `(org-block-begin-line :background ,(doom-darken (face-attribute 'lazy-highlight :background) 0.05))
-  `(org-block-end-line   :background ,(doom-darken (face-attribute 'lazy-highlight :background) 0.05))
-  `(org-block            :background ,(doom-lighten (face-attribute 'lazy-highlight :background) 0.05)))
+  '(org-meta-line :extend t :background "#edeae2")
+  '(org-block-begin-line    :background "#edeae2")
+  '(org-block-end-line      :background "#edeae2")
+  '(org-block               :background "#faf7ee"))
+  '(org-headline-done :weight normal :strike-through t :foreground "#b0ada2")
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;

@@ -6,6 +6,7 @@
 ;; use 'M-x doom/reload'.
 
 (package! tao-theme)
+(package! mixed-pitch)
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)

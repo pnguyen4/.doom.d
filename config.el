@@ -6,45 +6,33 @@
       user-mail-address "pnguyen4711@gmail.com")
 
 ;; Font config (I make heavy use of italics so I use fonts that support it)
-(setq doom-font (font-spec :family "Liberation Mono" :size 12)
+(setq doom-font (font-spec :family "Liberation Mono" :size 14)
       doom-big-font (font-spec :family "Liberation Mono" :size 30)
-      doom-serif-font (font-spec :family "Liberation Serif" :size 12)
-      doom-variable-pitch-font (font-spec :family "Liberation Mono" :size 16))
+      doom-serif-font (font-spec :family "IBM Plex Serif" :size 14)
+      doom-variable-pitch-font (font-spec :family "IBM Plex Serif" :size 14))
 
 ;; Use this function to list available fonts (uncomment and evaluate with "gr"):
 ;; (print (font-family-list))
 
-;; Use mixed pitch for markdown files
+;; Use mixed pitch for org files, markdown files, and info pages
 (add-hook! (gfm-mode markdown-mode) #'mixed-pitch-mode)
+(add-hook! 'org-mode-hook #'mixed-pitch-mode)
+(add-hook! 'Info-mode-hook #'mixed-pitch-mode)
 
-;; Theme + modifications
-(setq doom-theme 'tao-yang)
-(custom-theme-set-faces!
-  'tao-yang
-
-  ;; Boxes make which-key menu ugly
-  '(font-lock-function-name-face :box nil :slant italic)
-
-  ;; EIN specifics
-  `(ein:cell-input-area :background ,(doom-lighten (face-attribute 'lazy-highlight :background) 0.25))
-
-  ;; Markdown Mode Specifics
-  '(markdown-markup-face :inherit markdown-language-keyword-face)
-  `(markdown-code-face :extend t
-                       :background ,(doom-lighten (face-attribute 'lazy-highlight :background) 0.25))
-  `(markdown-language-keyword-face :background nil
-                                   :foreground ,(face-attribute 'font-lock-comment-face :foreground))
-  '(markdown-header-face :font doom-serif-font)
-  '(markdown-header-face-1 :height 1.50 :weight extra-bold :inherit markdown-header-face)
-  '(markdown-header-face-2 :height 1.40 :weight bold       :inherit markdown-header-face)
-  '(markdown-header-face-3 :height 1.30 :weight bold       :inherit markdown-header-face)
-  '(markdown-header-face-4 :height 1.20 :weight bold       :inherit markdown-header-face)
-  '(markdown-header-face-5 :height 1.10 :weight bold       :inherit markdown-header-face)
-  '(markdown-header-face-6 :height 1.00 :weight bold       :inherit markdown-header-face))
-
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+;; Org Mode
+(after! org
+  (setq org-directory "~/org/"
+        org-agenda-files '("~/org/agenda.org")
+        org-log-done 'time
+        org-agenda-skip-deadline-if-done t
+        org-agenda-skip-scheduled-if-done t
+        org-todo-keywords '((sequence "TODO(t)" "INPROGRESS(i)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)"))
+        org-todo-keyword-faces
+        '(("TODO" :foreground "#7c7c75" :weight normal :underline t)
+          ("WAITING" :foreground "#9f7efe" :weight normal :underline t)
+          ("INPROGRESS" :foreground "#0098dd" :weight normal :underline t)
+          ("DONE" :foreground "#50a14f" :weight normal :underline t)
+          ("CANCELLED" :foreground "#ff6480" :weight normal :underline t))))
 
 ;; Relative line numbers
 (setq display-line-numbers-type 'relative)
@@ -69,6 +57,48 @@
 (setq ein:output-area-inlined-images t)
 (setq ein:polymode t)
 (map! :map ein:notebook-mode-map "C-c C-\\" #'ein:worksheet-execute-all-cells)
+
+;; Theme + modifications
+(setq doom-theme 'tao-yang)
+(custom-theme-set-faces!
+  'tao-yang
+
+  ;; Don't change underlying font foreground on highlight line
+  '(hl-line :background "#FAF7EE" :foreground nil :extend t)
+
+  ;; Boxes make which-key menu ugly
+  '(font-lock-function-name-face :box nil :slant italic)
+
+  ;; EIN specifics
+  `(ein:cell-input-area :background ,(doom-lighten (face-attribute 'lazy-highlight :background) 0.25))
+
+  ;; Markdown Mode Specifics
+  '(markdown-markup-face :inherit markdown-language-keyword-face)
+  `(markdown-code-face :extend t
+                       :background ,(doom-lighten (face-attribute 'lazy-highlight :background) 0.25))
+  `(markdown-language-keyword-face :background nil
+                                   :foreground ,(face-attribute 'font-lock-comment-face :foreground))
+  '(markdown-header-face-1 :height 1.50 :weight extra-bold :inherit markdown-header-face)
+  '(markdown-header-face-2 :height 1.40 :weight bold       :inherit markdown-header-face)
+  '(markdown-header-face-3 :height 1.30 :weight bold       :inherit markdown-header-face)
+  '(markdown-header-face-4 :height 1.20 :weight bold       :inherit markdown-header-face)
+  '(markdown-header-face-5 :height 1.10 :weight bold       :inherit markdown-header-face)
+  '(markdown-header-face-6 :height 1.00 :weight bold       :inherit markdown-header-face)
+
+  ;; Org Mode Specifics
+  '(org-document-title :height 1.50 :weight bold)
+  '(org-level-1        :height 1.30 :weight bold)
+  '(org-level-2        :height 1.10 :weight bold)
+  '(org-level-3        :height 1.00 :weight bold)
+  '(org-level-4        :height 1.00 :weight bold)
+  '(org-level-5        :height 1.00 :weight bold)
+  '(org-level-6        :height 1.00 :weight bold)
+  `(org-headline-done :weight normal :strike-through t
+                      :foreground ,(face-attribute 'font-lock-comment-face :foreground))
+  `(org-meta-line :background ,(doom-darken (face-attribute 'lazy-highlight :background) 0.05) :extend t)
+  `(org-block-begin-line :background ,(doom-darken (face-attribute 'lazy-highlight :background) 0.05))
+  `(org-block-end-line   :background ,(doom-darken (face-attribute 'lazy-highlight :background) 0.05))
+  `(org-block            :background ,(doom-lighten (face-attribute 'lazy-highlight :background) 0.05)))
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;

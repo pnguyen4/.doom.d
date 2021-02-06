@@ -31,21 +31,22 @@
         org-log-done 'time
         org-agenda-skip-deadline-if-done t
         org-agenda-skip-scheduled-if-done t
+        org-agenda-include-deadlines t
         org-todo-keywords '((sequence "TODO(t)" "INPROGRESS(i)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)"))
         org-fancy-priorities-list '("HIGH" "MID" "LOW")
-        org-super-agenda-groups '((:name "Today" :time-grid t :scheduled today)
+        org-super-agenda-groups '((:name "Schedule"  :time-grid t :date today :scheduled today)
                                   (:name "Due today" :deadline today)
                                   (:name "Important" :priority "A")
-                                  (:name "Overdue" :deadline past)
-                                  (:name "Due soon" :deadline future))
+                                  (:name "Overdue"   :deadline past)
+                                  (:name "Due soon"  :deadline future))
         org-priority-faces '((?A :foreground "#ff0000")
                              (?C :foreground "#b0ada2"))
         org-todo-keyword-faces
-        '(("TODO" :foreground "#7c7c75" :weight normal :underline t)
-          ("WAITING" :foreground "#9f7efe" :weight normal :underline t)
+        '(("TODO"       :foreground "#7c7c75" :weight normal :underline t)
+          ("WAITING"    :foreground "#9f7efe" :weight normal :underline t)
           ("INPROGRESS" :foreground "#0098dd" :weight normal :underline t)
-          ("DONE" :foreground "#50a14f" :weight normal :underline t)
-          ("CANCELLED" :foreground "#ff6480" :weight normal :underline t))))
+          ("DONE"       :foreground "#50a14f" :weight normal :underline t)
+          ("CANCELLED"  :foreground "#ff6480" :weight normal :underline t))))
 
 ;; Relative line numbers
 (setq display-line-numbers-type 'relative)
@@ -65,6 +66,9 @@
 ;; Keybindings for copy and paste similar to alacritty (e.g. control + shift + v)
 (map! "C-S-V" #'yank
       "C-S-C" #'kill-ring-save)
+
+;; Projectile Config
+(setq projectile-ignored-projects '("/tmp" "~/.emacs.d/.local/straight/repos/"))
 
 ;; Quality of life fixes for EIN
 (setq ein:output-area-inlined-images t)
@@ -87,7 +91,7 @@
 
   ;; Markdown Mode Specifics
   '(markdown-markup-face :inherit markdown-language-keyword-face)
-  '(markdown-code-face :extend t :background "#faf7ee")
+  '(markdown-code-face   :extend t :background "#faf7ee")
   '(markdown-language-keyword-face :background nil :foreground "#b0ada2")
   '(markdown-header-face-1 :height 1.50 :weight extra-bold :inherit markdown-header-face)
   '(markdown-header-face-2 :height 1.40 :weight bold       :inherit markdown-header-face)

@@ -19,6 +19,9 @@
 (add-hook! 'org-mode-hook #'mixed-pitch-mode)
 (add-hook! 'Info-mode-hook #'mixed-pitch-mode)
 
+;; Automatically toggle LaTeX fragment previews as the cusor enters/exits them
+(add-hook! 'org-mode-hook #'org-fragtog-mode)
+
 ;; Org Mode
 (use-package! org-super-agenda
   :after org-agenda

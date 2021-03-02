@@ -9,6 +9,7 @@
 (package! mixed-pitch)
 (package! org-super-agenda)
 (package! org-fancy-priorities)
+(package! org-fragtog)
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)

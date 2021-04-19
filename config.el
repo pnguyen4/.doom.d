@@ -6,9 +6,9 @@
       user-mail-address "pnguyen4711@gmail.com")
 
 ;; Font config (I make heavy use of italics so I use fonts that support it)
-(setq doom-font (font-spec :family "Iosevka Extended" :size 15)
+(setq doom-font (font-spec :family "Iosevka Extended" :size 14)
       doom-big-font (font-spec :family "Iosevka Extended" :size 30)
-      doom-serif-font (font-spec :family "Iosevka Slab Extended" :size 15)
+      doom-serif-font (font-spec :family "Iosevka Slab Extended" :size 14)
       doom-variable-pitch-font (font-spec :family "IBM Plex Serif"))
 
 ;; Use this function to list available fonts (uncomment and evaluate with "gr"):
@@ -23,6 +23,7 @@
 (modify-syntax-entry ?_ "w")           ; Treat underscores as word delimiters
 (global-subword-mode 1)                ; Iterate through camelCase words too
 (setq which-key-idle-delay 0.2)        ; Make which-key help popup appear sooner
+(setq rainbow-delimiters-max-face-count 6)
 (map! "C-S-V" #'yank                   ; Set intuitive copy/paste keybindings
       "C-S-C" #'kill-ring-save)
 
@@ -33,6 +34,11 @@
 (add-hook! (gfm-mode markdown-mode) #'mixed-pitch-mode)
 (add-hook! 'org-mode-hook #'mixed-pitch-mode)
 (add-hook! 'Info-mode-hook #'mixed-pitch-mode)
+
+;; Use olivetti to center documents
+(add-hook! (prog-mode text-mode Info-mode) #'olivetti-mode)
+(setq olivetti-body-width 90
+      treemacs-width 30)
 
 ;; Automatically toggle LaTeX fragment previews as the cusor enters/exits them
 (add-hook! 'org-mode-hook #'org-fragtog-mode)

@@ -1,15 +1,13 @@
 ;; typeset-theme.el
 ;;
 ;; Author: Phillip Nguyen
-;; Version: 0.1
+;; Version: 0.2
 
 (deftheme typeset
   "Syntax typesetting over syntax highlighting")
 
-(setq x-underline-at-descent-line t)
-
 (let ((fg           "#000000")
-      (fg-light     "#777777")
+      (fg-light     "#888888")
       (bg-alt       "#F5F5F5")
       (bg-alt-meta  "#E5E5E5")
       (bg-highlight "#BBBBBB"))
@@ -55,7 +53,7 @@
    `(git-gutter-fr:modified ((t (:foreground ,fg-light))))
 
    ;; hl-line
-   `(hl-line ((t (:background ,bg-alt))))
+   `(hl-line ((t (:background "#E5E5DE"))))
 
    ;; ivy
    `(ivy-current-match ((t (:background ,bg-highlight :foreground ,fg))))
@@ -94,28 +92,38 @@
    `(mode-line-highlight ((t (:box (:line-width -1 :style pressed-button)))))
 
    ;; org-mode
-   `(org-block-begin-line ((t (:background ,bg-alt-meta))))
-   `(org-block-end-line   ((t (:inherit org-block-begin-line))))
-   `(org-block            ((t (:background ,bg-alt))))
-   `(org-document-title   ((t (:height 1.50 :weight bold))))
-   `(org-level-1          ((t (:height 1.30 :weight bold))))
-   `(org-level-2          ((t (:height 1.10 :weight bold))))
-   `(org-level-3          ((t (:height 1.00 :weight semi-bold))))
-   `(org-level-4          ((t (:height 1.00 :weight semi-bold))))
-   `(org-level-5          ((t (:height 1.00 :weight semi-bold))))
-   `(org-level-6          ((t (:height 1.00 :weight semi-bold))))
-   `(org-document-info    ((t (:foreground ,fg-light))))
-   `(org-headline-done    ((t (:foreground ,fg-light
-                               :weight normal
-                               :strike-through t))))
+   `(org-block-begin-line  ((t (:background ,bg-alt-meta))))
+   `(org-block-end-line    ((t (:inherit org-block-begin-line))))
+   `(org-block             ((t (:background ,bg-alt))))
+   `(org-document-title    ((t (:height 1.50 :weight bold))))
+   `(org-level-1           ((t (:height 1.30 :weight bold))))
+   `(org-level-2           ((t (:height 1.10 :weight bold))))
+   `(org-level-3           ((t (:height 1.00 :weight semi-bold))))
+   `(org-level-4           ((t (:height 1.00 :weight semi-bold))))
+   `(org-level-5           ((t (:height 1.00 :weight semi-bold))))
+   `(org-level-6           ((t (:height 1.00 :weight semi-bold))))
+   `(org-document-info     ((t (:foreground ,fg-light))))
+   `(org-headline-done     ((t (:foreground ,fg-light
+                                :weight normal
+                                :strike-through t))))
+   `(org-drawer            ((t (:foreground ,fg-light :weight bold))))
+   `(org-table             ((t (:foreground ,fg))))
+   `(org-date              ((t (:foreground ,fg-light))))
+   `(org-date-selected     ((t (:inherit highlight))))
+   `(org-agenda-date       ((t (:foreground ,fg-light))))
+   `(org-agenda-date-today ((t (:foreground ,fg :weight bold :underline t))))
+   `(org-agenda-structure  ((t (:foreground ,fg :weight bold))))
 
    ;; racket
    `(racket-selfeval-face ((t :inherit ,font-lock-constant-face)))
 
-   ;; rainbow delimiters
-   `(rainbow-delimiters-depth-1-face ((t (:foreground "#bfbfbf"))))
-   `(rainbow-delimiters-depth-2-face ((t (:foreground "#737373"))))
-   `(rainbow-delimiters-depth-3-face ((t (:foreground ,fg))))
+   ;; rainbow delimiters -- note that colors run opposite of weight
+   `(rainbow-delimiters-depth-1-face ((t (:foreground ,fg :weight light))))
+   `(rainbow-delimiters-depth-2-face ((t (:foreground ,fg :weight semi-bold))))
+   `(rainbow-delimiters-depth-3-face ((t (:foreground ,fg :weight ultra-bold))))
+   `(rainbow-delimiters-depth-4-face ((t (:foreground ,fg-light :weight light))))
+   `(rainbow-delimiters-depth-5-face ((t (:foreground ,fg-light :weight semi-bold))))
+   `(rainbow-delimiters-depth-6-face ((t (:foreground ,fg-light :weight ultra-bold))))
 
    ;; workspaces
    `(+workspace-tab-selected-face ((t (:background ,bg-highlight :foreground ,fg))))

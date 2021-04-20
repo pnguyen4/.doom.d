@@ -1,43 +1,44 @@
 ;; typeset-theme.el
 ;;
 ;; Author: Phillip Nguyen
-;; Version: 0.2
+;; Version: 0.21
 
 (deftheme typeset
   "Syntax typesetting over syntax highlighting")
 
-(let ((fg           "#000000")
-      (fg-light     "#888888")
-      (bg-alt       "#F5F5F5")
+(let ((bg-alt       "#F5F5F5")
       (bg-alt-meta  "#E5E5E5")
-      (bg-highlight "#BBBBBB"))
+      (bg-highlight "#BBBBBB")
+      (fg           "#000000")
+      (fg-light     "#777777"))
 
   (custom-theme-set-faces
    'typeset
 
    ;; standard
-   `(font-lock-function-name-face ((t (:foreground ,fg))))
-   `(font-lock-variable-name-face ((t (:foreground ,fg))))
-   `(font-lock-constant-face      ((t (:foreground ,fg))))
    `(font-lock-builtin-face       ((t (:foreground ,fg))))
-   `(font-lock-keyword-face       ((t (:foreground ,fg :weight bold))))
-   `(font-lock-warning-face       ((t (:inherit warning))))
-   `(font-lock-comment-face       ((t (:foreground ,fg-light ; to differentiate context
-                                       :slant italic         ; then re-emphasize them
+   `(font-lock-comment-face       ((t (:foreground ,fg-light  ; to differentiate context
+                                       :slant italic          ; then to re-emphasize them
                                        :width normal))))
+   `(font-lock-constant-face      ((t (:foreground ,fg))))
+   `(font-lock-doc-face           ((t (:inherit font-lock-string-face))))
+   `(font-lock-function-name-face ((t (:foreground ,fg))))
+   `(font-lock-keyword-face       ((t (:foreground ,fg :weight bold))))
    `(font-lock-string-face        ((t (:inherit fixed-pitch-serif
                                        :slant oblique
                                        :weight light))))
    `(font-lock-type-face          ((t (:foreground ,fg))))
-   `(font-lock-doc-face           ((t (:inherit font-lock-string-face))))
+   `(font-lock-variable-name-face ((t (:foreground ,fg))))
+   `(font-lock-warning-face       ((t (:inherit warning))))
    `(region ((t (:foreground ,fg :background ,bg-highlight :extend t))))
 
    ;; company
-   `(company-tooltip-selection ((t (:background ,bg-highlight :foreground ,fg))))
-   `(company-tooltip           ((t (:background ,bg-alt))))
-   `(company-scrollbar-fg      ((t (:background ,bg-highlight))))
-   `(company-scrollbar-bg      ((t (:background ,bg-alt-meta))))
-   `(company-tooltip-common    ((t (:foreground ,fg :weight bold))))
+   `(company-scrollbar-bg       ((t (:background ,bg-alt-meta))))
+   `(company-scrollbar-fg       ((t (:background ,bg-highlight))))
+   `(company-tooltip            ((t (:background ,bg-alt))))
+   `(company-tooltip-annotation ((t (:foreground ,fg-light :slant oblique))))
+   `(company-tooltip-common     ((t (:foreground ,fg :weight bold))))
+   `(company-tooltip-selection  ((t (:background ,bg-highlight :foreground ,fg))))
 
    ;; doom-modeline
    `(doom-modeline-project-dir ((t (:inherit doom-modeline-project-root-dir))))
@@ -46,8 +47,8 @@
    `(ein:cell-input-area ((t (:background ,bg-alt))))
 
    ;; flycheck
-   `(flycheck-warning        ((t (:underline (:color ,fg-light :style wave)))))
    `(flycheck-fringe-warning ((t (:foreground ,fg-light))))
+   `(flycheck-warning        ((t (:underline (:color ,fg-light :style wave)))))
 
    ;; git-gutter-fr
    `(git-gutter-fr:modified ((t (:foreground ,fg-light))))
@@ -63,13 +64,11 @@
    `(highlight-quoted-quote  ((t (:inherit default))))
 
    ;; magit
-   `(magit-section-heading-selection ((t (:foreground ,fg))))
    `(magit-section-heading           ((t (:foreground ,fg :weight bold))))
+   `(magit-section-heading-selection ((t (:foreground ,fg))))
    `(magit-section-title             ((t (:foreground ,fg :weight bold))))
 
    ;; markdown
-   `(markdown-language-keyword-face ((t (:background nil :foreground ,fg-light))))
-   `(markdown-markup-face           ((t (:inherit markdown-language-keyword-face))))
    `(markdown-code-face             ((t (:background ,bg-alt :extend t))))
    `(markdown-header-face-1         ((t (:height 1.50 :weight extra-bold))))
    `(markdown-header-face-2         ((t (:height 1.40 :weight bold))))
@@ -77,6 +76,8 @@
    `(markdown-header-face-4         ((t (:height 1.20 :weight bold))))
    `(markdown-header-face-5         ((t (:height 1.10 :weight bold))))
    `(markdown-header-face-6         ((t (:height 1.00 :weight bold))))
+   `(markdown-language-keyword-face ((t (:background nil :foreground ,fg-light))))
+   `(markdown-markup-face           ((t (:inherit markdown-language-keyword-face))))
 
    ;; minibuffer
    `(minibuffer-prompt ((t (:background ,bg-alt-meta :foreground ,fg))))
@@ -85,34 +86,36 @@
    `(mode-line           ((t (:foreground "#0A0A0A"
                               :background "#D7D7D7"
                               :box (:line-width -1 :color "#505050")))))
+   `(mode-line-emphasis  ((t (:inherit bold))))
+   `(mode-line-highlight ((t (:box (:line-width -1 :style pressed-button)))))
    `(mode-line-inactive  ((t (:foreground "#404148"
                               :background "#EFEFEF"
                               :box (:line-width -1 :color "#BCBCBC")))))
-   `(mode-line-emphasis  ((t (:inherit bold))))
-   `(mode-line-highlight ((t (:box (:line-width -1 :style pressed-button)))))
 
-   ;; org-mode
-   `(org-block-begin-line  ((t (:background ,bg-alt-meta))))
-   `(org-block-end-line    ((t (:inherit org-block-begin-line))))
-   `(org-block             ((t (:background ,bg-alt))))
-   `(org-document-title    ((t (:height 1.50 :weight bold))))
-   `(org-level-1           ((t (:height 1.30 :weight bold))))
-   `(org-level-2           ((t (:height 1.10 :weight bold))))
-   `(org-level-3           ((t (:height 1.00 :weight semi-bold))))
-   `(org-level-4           ((t (:height 1.00 :weight semi-bold))))
-   `(org-level-5           ((t (:height 1.00 :weight semi-bold))))
-   `(org-level-6           ((t (:height 1.00 :weight semi-bold))))
-   `(org-document-info     ((t (:foreground ,fg-light))))
-   `(org-headline-done     ((t (:foreground ,fg-light
-                                :weight normal
-                                :strike-through t))))
-   `(org-drawer            ((t (:foreground ,fg-light :weight bold))))
-   `(org-table             ((t (:foreground ,fg))))
+   ;; org
+   `(org-block            ((t (:background ,bg-alt))))
+   `(org-block-begin-line ((t (:background ,bg-alt-meta))))
+   `(org-block-end-line   ((t (:inherit org-block-begin-line))))
+   `(org-document-title   ((t (:height 1.50 :weight bold))))
+   `(org-document-info    ((t (:foreground ,fg-light))))
+   `(org-drawer           ((t (:foreground ,fg-light :weight bold))))
+   `(org-headline-done    ((t (:foreground ,fg-light :weight normal :strike-through t))))
+   `(org-level-1          ((t (:height 1.30 :weight bold))))
+   `(org-level-2          ((t (:height 1.10 :weight bold))))
+   `(org-level-3          ((t (:height 1.00 :weight semi-bold))))
+   `(org-level-4          ((t (:height 1.00 :weight semi-bold))))
+   `(org-level-5          ((t (:height 1.00 :weight semi-bold))))
+   `(org-level-6          ((t (:height 1.00 :weight semi-bold))))
+   `(org-table            ((t (:foreground ,fg))))
+
+   ;; org agenda
+   `(org-agenda-date       ((t (:foreground ,fg-light :background ,bg-alt))))
+   `(org-agenda-date-today ((t (:foreground ,fg :weight bold :height 1.2))))
+   `(org-agenda-structure  ((t (:foreground ,fg :weight bold))))
    `(org-date              ((t (:foreground ,fg-light))))
    `(org-date-selected     ((t (:inherit highlight))))
-   `(org-agenda-date       ((t (:foreground ,fg-light))))
-   `(org-agenda-date-today ((t (:foreground ,fg :weight bold :underline t))))
-   `(org-agenda-structure  ((t (:foreground ,fg :weight bold))))
+   `(org-upcoming-deadline ((t (:foreground ,fg))))
+   `(org-warning           ((t (:foreground ,fg-light :weight bold))))
 
    ;; racket
    `(racket-selfeval-face ((t :inherit ,font-lock-constant-face)))
@@ -125,9 +128,11 @@
    `(rainbow-delimiters-depth-5-face ((t (:foreground ,fg-light :weight semi-bold))))
    `(rainbow-delimiters-depth-6-face ((t (:foreground ,fg-light :weight ultra-bold))))
 
+   ;; whichkey
+   `(which-key-separator-face ((t (:inherit default))))
+
    ;; workspaces
-   `(+workspace-tab-selected-face ((t (:background ,bg-highlight :foreground ,fg))))
- ))
+   `(+workspace-tab-selected-face ((t (:background ,bg-highlight :foreground ,fg))))))
 
 ;;;###autoload
 (and load-file-name

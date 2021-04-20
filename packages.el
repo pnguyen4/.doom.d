@@ -7,10 +7,11 @@
 
 (package! tao-theme)
 (package! mixed-pitch)
+(package! olivetti)
 (package! org-super-agenda)
 (package! org-fancy-priorities)
 (package! org-fragtog)
-(package! olivetti)
+(package! org-appear :recipe (:host github :repo "awth13/org-appear"))
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)

@@ -18,37 +18,47 @@
 (setq doom-theme 'typeset)
 
 ;; Basic UI/UX Changes
-(setq display-line-numbers-type nil)   ; No line numbers
-(setq-default tab-width 4)             ; This is what I like
 (modify-syntax-entry ?_ "w")           ; Treat underscores as word delimiters
 (global-subword-mode 1)                ; Iterate through camelCase words too
-(setq which-key-idle-delay 0.2)        ; Make which-key help popup appear sooner
-(setq rainbow-delimiters-max-face-count 6)
+(setq-default tab-width 4)             ; This is what I like
+(setq display-line-numbers-type nil    ; No line numbers
+      which-key-idle-delay 0.2         ; Make which-key help popup appear sooner
+      undo-limit 80000000              ; Raise undo-limit to 80Mb
+      evil-want-fine-undo t            ; More granular undos
+      +ivy-buffer-preview t            ; Preview buffer before switching
+      company-show-numbers t)          ; Autocomplete with M-[0,9]
 (map! "C-S-V" #'yank                   ; Set intuitive copy/paste keybindings
       "C-S-C" #'kill-ring-save)
+(setq rainbow-delimiters-max-face-count 6)
+
+;; Tecosaur has a good point. Doom uses evil, no need to beat a dead horse.
+(setq which-key-allow-multiple-replacements t)
+(after! which-key
+  (pushnew! which-key-replacement-alist
+            '(("" . "\\`+?evil[-:]?\\(?:a-\\)?\\(?:/\\)?\\(.*\\)") . (nil . "\\1"))
+            '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . "\\1"))))
 
 ;; Projectile Config
 (setq projectile-ignored-projects '("/tmp" "~/.emacs.d/.local/straight/repos/"))
 
 ;; Use mixed pitch for org files, markdown files, and info pages
-(add-hook! (gfm-mode markdown-mode) #'mixed-pitch-mode)
-(add-hook! 'org-mode-hook #'mixed-pitch-mode)
-(add-hook! 'Info-mode-hook #'mixed-pitch-mode)
+(use-package! mixed-pitch
+  :hook ((gfm-mode markdown-mode Info-mode org-mode) . mixed-pitch-mode))
 
 ;; Use olivetti to center documents
-(add-hook! (prog-mode text-mode Info-mode) #'olivetti-mode)
 (setq olivetti-body-width 90
       treemacs-width 30)
+(use-package! olivetti
+  :hook ((text-mode Info-mode) . olivetti-mode))
+;; I'm not sure about this yet
+;; (add-hook! (prog-mode) #'olivetti-mode)
 
-;; Automatically toggle LaTeX fragment previews as the cusor enters/exits them
-(add-hook! 'org-mode-hook #'org-fragtog-mode)
+;; Quality of life fixes for EIN
+(setq ein:output-area-inlined-images t)
+(setq ein:polymode t)
+(map! :map ein:notebook-mode-map "C-c C-\\" #'ein:worksheet-execute-all-cells)
 
-;; Org Mode Config
-(use-package! org-super-agenda
-  :after org-agenda
-  :config (org-super-agenda-mode))
-(use-package! org-fancy-priorities
-  :hook (org-mode . org-fancy-priorities-mode))
+;; Org Config
 (after! org
   (setq org-directory "~/org/"
         org-agenda-files '("~/org/agenda.org")
@@ -56,48 +66,48 @@
         org-agenda-skip-deadline-if-done t
         org-agenda-skip-scheduled-if-done t
         org-agenda-include-deadlines t
-        org-fancy-priorities-list '("HIGH" "MID" "LOW")
-        org-priority-faces '((?A :foreground "#ff0000")
-                             (?C :foreground "#b0ada2"))
-        org-super-agenda-groups '((:name "Schedule"
-                                   :time-grid t
-                                   :date today
-                                   :scheduled today)
-                                  (:name "Due today" :deadline today)
-                                  (:name "Important" :priority "A")
-                                  (:name "Overdue"   :deadline past)
-                                  (:name "Due soon"  :deadline future))
-        org-todo-keywords '((sequence "TODO(t)"
-                                      "INPROGRESS(i)"
-                                      "WAITING(w)"
-                                      "|"
-                                      "DONE(d)"
-                                      "CANCELLED(c)"))
-        org-todo-keyword-faces '(("TODO"
-                                  :foreground "#7c7c75"
-                                  :weight normal
-                                  :underline t)
-                                 ("WAITING"
-                                  :foreground "#9f7efe"
-                                  :weight normal
-                                  :underline t)
-                                 ("INPROGRESS"
-                                  :foreground "#0098dd"
-                                  :weight normal
-                                  :underline t)
-                                 ("DONE"
-                                  :foreground "#50a14f"
-                                  :weight normal
-                                  :underline t)
-                                 ("CANCELLED"
-                                  :foreground "#ff6480"
-                                  :weight normal
-                                  :underline t))))
+        org-todo-keywords
+        '((sequence "TODO(t)" "INPROGRESS(i)" "WAITING(w)"
+                    "|" "DONE(d)" "CANCELLED(c)"))
+        org-todo-keyword-faces
+        '(("TODO" :foreground "#7c7c75" :weight normal :underline t)
+          ("WAITING" :foreground "#9f7efe" :weight normal :underline t)
+          ("INPROGRESS" :foreground "#0098dd" :weight normal :underline t)
+          ("DONE" :foreground "#50a14f" :weight normal :underline t)
+          ("CANCELLED" :foreground "#ff6480" :weight normal :underline t))))
 
-;; Quality of life fixes for EIN
-(setq ein:output-area-inlined-images t)
-(setq ein:polymode t)
-(map! :map ein:notebook-mode-map "C-c C-\\" #'ein:worksheet-execute-all-cells)
+;; Hide emphasis and link markup until cursor enters element
+(use-package! org-appear
+  :after org
+  :hook (org-mode . org-appear-mode)
+  :config (setq org-hide-emphasis-markers t))
+
+;; Automatically toggle LaTeX fragment previews as the cusor enters/exits them
+(use-package! org-fragtog
+  :after org
+  :hook (org-mode . org-fragtog-mode))
+
+;; I prefer plain english over #A, #B, #C
+(use-package! org-fancy-priorities
+  :hook (org-mode . org-fancy-priorities-mode)
+  :config (setq org-fancy-priorities-list '("HIGH" "MID" "LOW")
+                org-priority-faces '((?A :foreground "#ff0000")
+                                     (?C :foreground "#b0ada2"))))
+
+;; Org Agenda Config
+(use-package! org-super-agenda
+  :after org-agenda
+  :config
+  (org-super-agenda-mode)
+  (setq org-super-agenda-groups
+        '((:name "Schedule"
+           :time-grid t
+           :date today
+           :scheduled today)
+          (:name "Due today" :deadline today)
+          (:name "Important" :priority "A")
+          (:name "Overdue"   :deadline past)
+          (:name "Due soon"  :deadline future))))
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;

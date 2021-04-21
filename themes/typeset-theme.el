@@ -85,12 +85,12 @@
    ;; mode-line (inspired by modus operandi)
    `(mode-line           ((t (:foreground "#0A0A0A"
                               :background "#D7D7D7"
-                              :box (:line-width -1 :color "#505050")))))
+                              :overline "#999999"))))
    `(mode-line-emphasis  ((t (:inherit bold))))
    `(mode-line-highlight ((t (:box (:line-width -1 :style pressed-button)))))
    `(mode-line-inactive  ((t (:foreground "#404148"
                               :background "#EFEFEF"
-                              :box (:line-width -1 :color "#BCBCBC")))))
+                              :overline "#999999"))))
 
    ;; org
    `(org-block            ((t (:background ,bg-alt))))

@@ -12,7 +12,7 @@
       doom-variable-pitch-font (font-spec :family "IBM Plex Serif"))
 
 ;; Use this function to list available fonts (uncomment and evaluate with "gr"):
-(print (font-family-list))
+;(print (font-family-list))
 
 ;; Custom Theme
 (setq doom-theme 'typeset)
@@ -21,15 +21,17 @@
 (modify-syntax-entry ?_ "w")           ; Treat underscores as word delimiters
 (global-subword-mode 1)                ; Iterate through camelCase words too
 (setq-default tab-width 4)             ; This is what I like
-(setq display-line-numbers-type nil    ; No line numbers
+(setq rainbow-delimiters-max-face-count 6
+      display-line-numbers-type nil    ; No line numbers
       which-key-idle-delay 0.2         ; Make which-key help popup appear sooner
       undo-limit 80000000              ; Raise undo-limit to 80Mb
+      evil-split-window-below t        ; Switch to the new window after splitting
+      evil-vsplit-window-right t
       evil-want-fine-undo t            ; More granular undos
       +ivy-buffer-preview t            ; Preview buffer before switching
       company-show-numbers t)          ; Autocomplete with M-[0,9]
 (map! "C-S-V" #'yank                   ; Set intuitive copy/paste keybindings
       "C-S-C" #'kill-ring-save)
-(setq rainbow-delimiters-max-face-count 6)
 
 ;; Tecosaur has a good point. Doom uses evil, no need to beat a dead horse.
 (setq which-key-allow-multiple-replacements t)
@@ -52,11 +54,6 @@
   :hook ((text-mode Info-mode) . olivetti-mode))
 ;; I'm not sure about this yet
 ;; (add-hook! (prog-mode) #'olivetti-mode)
-
-;; Quality of life fixes for EIN
-(setq ein:output-area-inlined-images t)
-(setq ein:polymode t)
-(map! :map ein:notebook-mode-map "C-c C-\\" #'ein:worksheet-execute-all-cells)
 
 ;; Org Config
 (after! org

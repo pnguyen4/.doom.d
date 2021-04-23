@@ -1,7 +1,7 @@
 ;; typeset-theme.el
 ;;
 ;; Author: Phillip Nguyen
-;; Version: 0.22
+;; Version: 0.23
 
 (deftheme typeset
   "Syntax typesetting over syntax highlighting")
@@ -40,8 +40,25 @@
    `(company-tooltip-common     ((t (:foreground ,fg :weight bold))))
    `(company-tooltip-selection  ((t (:background ,bg-highlight :foreground ,fg))))
 
-   ;; doom-modeline
+   ;; dired
+   `(diredfl-date-time   ((t (:foreground ,fg-light))))
+   `(diredfl-dir-heading ((t (:background ,bg-alt-meta :foreground ,fg :underline ,fg))))
+   `(diredfl-dir-name    ((t (:background nil :foreground ,fg :weight extra-bold))))
+   `(diredfl-file-name   ((t (:foreground ,fg))))
+   `(diredfl-file-suffix ((t (:foreground ,fg))))
+   `(diredfl-dir-priv    ((t (:background nil :weight ultra-bold))))
+   `(diredfl-exec-priv   ((t (:background nil))))
+   `(diredfl-no-priv     ((t (:background nil))))
+   `(diredfl-number      ((t (:foreground ,fg))))
+   `(diredfl-rare-priv   ((t (:background nil :weight ultra-bold))))
+   `(diredfl-read-priv   ((t (:background nil))))
+   `(diredfl-symlink     ((t (:inherit link :underline nil))))
+   `(diredfl-write-priv  ((t (:background nil))))
+
+   ;; doom
    `(doom-modeline-project-dir ((t (:inherit doom-modeline-project-root-dir))))
+   `(doom-dashboard-loaded     ((t (:inherit default :foreground ,fg-light))))
+   `(doom-dashboard-banner     ((t (:inherit doom-dashboard-loaded))))
 
    ;; ein
    `(ein:cell-input-area ((t (:background ,bg-alt))))

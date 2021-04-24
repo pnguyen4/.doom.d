@@ -1,13 +1,12 @@
 ;; typeset-theme.el
 ;;
 ;; Author: Phillip Nguyen
-;; Version: 0.24
+;; Version: 0.25
 
 (deftheme typeset
   "Syntax typesetting over syntax highlighting")
 
-(let ((bg           "#FFFFFF")  ; primary context
-      (bg-alt       "#F5F5F5")  ; secondary context
+(let ((bg-alt       "#F5F5F5")  ; secondary context
       (bg-hl-line   "#E5E5DE")  ; current focus
       (bg-match     "#FFFF88")  ; first search match
       (bg-meta      "#E5E5E5")  ; tertiary context / meta information
@@ -37,31 +36,40 @@
    `(region ((t (:foreground ,fg :background ,bg-region :extend t))))
 
    ;; company
-   `(company-scrollbar-bg       ((t (:background ,bg-meta))))
-   `(company-scrollbar-fg       ((t (:background ,bg-region))))
-   `(company-tooltip            ((t (:background ,bg-alt))))
-   `(company-tooltip-annotation ((t (:foreground ,fg-light :slant oblique))))
-   `(company-tooltip-common     ((t (:foreground ,fg :weight bold))))
-   `(company-tooltip-selection  ((t (:background ,bg-hl-line :foreground ,fg))))
+   `(company-scrollbar-bg       ((t (:inherit fixed-pitch
+                                     :background ,bg-meta))))
+   `(company-scrollbar-fg       ((t (:inherit fixed-pitch
+                                     :background ,bg-region))))
+   `(company-tooltip            ((t (:inherit fixed-pitch
+                                     :background ,bg-alt))))
+   `(company-tooltip-annotation ((t (:inherit fixed-pitch
+                                     :foreground ,fg-light
+                                     :slant oblique))))
+   `(company-tooltip-common     ((t (:inherit fixed-pitch
+                                     :foreground ,fg
+                                     :weight bold))))
+   `(company-tooltip-selection  ((t (:inherit fixed-pitch
+                                     :background ,bg-hl-line
+                                     :foreground ,fg))))
 
    ;; dired
    `(diredfl-date-time   ((t (:foreground ,fg-light))))
    `(diredfl-dir-heading ((t (:background ,bg-meta
                               :foreground ,fg
                               :underline ,fg))))
-   `(diredfl-dir-name    ((t (:background ,bg
+   `(diredfl-dir-name    ((t (:background nil
                               :foreground ,fg
                               :weight extra-bold))))
    `(diredfl-file-name   ((t (:foreground ,fg))))
    `(diredfl-file-suffix ((t (:foreground ,fg))))
-   `(diredfl-dir-priv    ((t (:background ,bg :weight ultra-bold))))
-   `(diredfl-exec-priv   ((t (:background ,bg))))
-   `(diredfl-no-priv     ((t (:background ,bg))))
+   `(diredfl-dir-priv    ((t (:background nil :weight ultra-bold))))
+   `(diredfl-exec-priv   ((t (:background nil))))
+   `(diredfl-no-priv     ((t (:background nil))))
    `(diredfl-number      ((t (:foreground ,fg))))
-   `(diredfl-rare-priv   ((t (:background ,bg :weight ultra-bold))))
-   `(diredfl-read-priv   ((t (:background ,bg))))
+   `(diredfl-rare-priv   ((t (:background nil :weight ultra-bold))))
+   `(diredfl-read-priv   ((t (:background nil))))
    `(diredfl-symlink     ((t (:inherit link :underline nil))))
-   `(diredfl-write-priv  ((t (:background ,bg))))
+   `(diredfl-write-priv  ((t (:background nil))))
 
    ;; doom
    `(doom-modeline-project-dir ((t (:inherit doom-modeline-project-root-dir))))
@@ -86,6 +94,7 @@
 
    ;; ivy
    `(ivy-current-match ((t (:background ,bg-hl-line :foreground ,fg))))
+   `(ivy-org           ((t (:inherit fixed-pitch))))
 
    ;; lisp
    `(highlight-quoted-symbol ((t (:foreground ,fg))))
@@ -97,18 +106,24 @@
    `(magit-section-title             ((t (:foreground ,fg :weight bold))))
 
    ;; markdown
-   `(markdown-code-face             ((t (:background ,bg-alt :extend t))))
+   `(markdown-code-face             ((t (:inherit fixed-pitch
+                                         :background ,bg-alt
+                                         :extend t))))
    `(markdown-header-face-1         ((t (:height 1.50 :weight extra-bold))))
    `(markdown-header-face-2         ((t (:height 1.40 :weight bold))))
    `(markdown-header-face-3         ((t (:height 1.30 :weight bold))))
    `(markdown-header-face-4         ((t (:height 1.20 :weight bold))))
    `(markdown-header-face-5         ((t (:height 1.10 :weight bold))))
    `(markdown-header-face-6         ((t (:height 1.00 :weight bold))))
-   `(markdown-language-keyword-face ((t (:background ,bg :foreground ,fg-light))))
-   `(markdown-markup-face           ((t (:background ,bg :foreground ,fg-light))))
+   `(markdown-language-keyword-face ((t (:background nil :foreground ,fg-light))))
+   `(markdown-markup-face           ((t (:inherit fixed-pitch
+                                         :background nil
+                                         :foreground ,fg-light))))
 
    ;; minibuffer
-   `(minibuffer-prompt ((t (:background ,bg-meta :foreground ,fg))))
+   `(minibuffer-prompt ((t (:inherit fixed-pitch
+                            :background ,bg-meta
+                            :foreground ,fg))))
 
    ;; mode-line (inspired by modus operandi)
    `(mode-line           ((t (:background "#D7D7D7" :overline "#999999"))))
@@ -119,22 +134,34 @@
                               :overline "#999999"))))
 
    ;; org
-   `(org-block            ((t (:background ,bg-alt))))
-   `(org-block-begin-line ((t (:background ,bg-meta))))
+   `(org-code             ((t (:inherit fixed-pitch :background ,bg-alt))))
+   `(org-block            ((t (:inherit fixed-pitch :background ,bg-alt))))
+   `(org-block-begin-line ((t (:inherit fixed-pitch :background ,bg-meta))))
    `(org-block-end-line   ((t (:inherit org-block-begin-line))))
+   `(org-checkbox         ((t (:inherit fixed-pitch))))
+   `(org-date             ((t (:inherit fixed-pitch :foreground ,fg-light))))
    `(org-document-title   ((t (:height 1.50 :weight bold))))
    `(org-document-info    ((t (:foreground ,fg-light))))
+   `(org-done             ((t (:inherit fixed-pitch))))
    `(org-drawer           ((t (:foreground ,fg-light :weight bold))))
+   `(org-formula          ((t (:inherit org-table))))
    `(org-headline-done    ((t (:foreground ,fg-light
                                :weight normal
                                :strike-through t))))
+   `(org-hide             ((t (:inherit fixed-pitch))))
    `(org-level-1          ((t (:height 1.30 :weight bold))))
    `(org-level-2          ((t (:height 1.10 :weight bold))))
    `(org-level-3          ((t (:height 1.00 :weight semi-bold))))
    `(org-level-4          ((t (:height 1.00 :weight semi-bold))))
    `(org-level-5          ((t (:height 1.00 :weight semi-bold))))
    `(org-level-6          ((t (:height 1.00 :weight semi-bold))))
-   `(org-table            ((t (:foreground ,fg))))
+   `(org-meta-line        ((t (:inherit fixed-pitch :foreground ,fg-light))))
+   `(org-priority         ((t (:inherit fixed-pitch))))
+   `(org-special-keyword  ((t (:inherit fixed-pitch))))
+   `(org-table            ((t (:inherit fixed-pitch :foreground ,fg))))
+   `(org-tag              ((t (:inherit fixed-pitch))))
+   `(org-todo             ((t (:inherit fixed-pitch))))
+   `(org-verbatim         ((t (:inherit fixed-pitch))))
 
    ;; org agenda
    `(org-agenda-date       ((t (:foreground ,fg-light :background ,bg-alt))))

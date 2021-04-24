@@ -44,14 +44,14 @@
 (setq projectile-ignored-projects '("/tmp" "~/.emacs.d/.local/straight/repos/"))
 
 ;; Use mixed pitch for org files, markdown files, and info pages
-(use-package! mixed-pitch
-  :hook ((gfm-mode markdown-mode Info-mode org-mode) . mixed-pitch-mode))
+;; Certain faces are forced to be fixed-width by theme
+(add-hook! (gfm-mode markdown-mode Info-mode org-mode) #'variable-pitch-mode)
 
 ;; Use olivetti to center documents
-(setq olivetti-body-width 90
-      treemacs-width 30)
 (use-package! olivetti
-  :hook ((text-mode Info-mode) . olivetti-mode))
+  :hook ((text-mode Info-mode) . olivetti-mode)
+  :init (setq olivetti-body-width 90
+              treemacs-width 30))
 ;; I'm not sure about this yet
 ;; (add-hook! (prog-mode) #'olivetti-mode)
 
@@ -77,7 +77,7 @@
 (use-package! org-appear
   :after org
   :hook (org-mode . org-appear-mode)
-  :config (setq org-hide-emphasis-markers t))
+  :custom (org-hide-emphasis-markers t))
 
 ;; Automatically toggle LaTeX fragment previews as the cusor enters/exits them
 (use-package! org-fragtog
@@ -86,25 +86,26 @@
 
 ;; I prefer plain english over #A, #B, #C
 (use-package! org-fancy-priorities
+  :after org
   :hook (org-mode . org-fancy-priorities-mode)
-  :config (setq org-fancy-priorities-list '("HIGH" "MID" "LOW")
-                org-priority-faces '((?A :foreground "#ff0000")
-                                     (?C :foreground "#b0ada2"))))
+  :custom
+  (org-fancy-priorities-list '("HIGH" "MID" "LOW"))
+  (org-priority-faces '((?A :foreground "#ff0000")
+                        (?C :foreground "#b0ada2"))))
 
 ;; Org Agenda Config
 (use-package! org-super-agenda
   :after org-agenda
-  :config
-  (org-super-agenda-mode)
-  (setq org-super-agenda-groups
-        '((:name "Schedule"
-           :time-grid t
-           :date today
-           :scheduled today)
-          (:name "Due today" :deadline today)
-          (:name "Important" :priority "A")
-          (:name "Overdue"   :deadline past)
-          (:name "Due soon"  :deadline future))))
+  :config (org-super-agenda-mode)
+  :custom
+  (org-super-agenda-groups '((:name "Schedule"
+                              :time-grid t
+                              :date today
+                              :scheduled today)
+                             (:name "Due today" :deadline today)
+                             (:name "Important" :priority "A")
+                             (:name "Overdue"   :deadline past)
+                             (:name "Due soon"  :deadline future))))
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;

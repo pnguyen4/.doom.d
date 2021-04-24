@@ -5,8 +5,6 @@
 ;; on the command line, then restart Emacs for the changes to take effect -- or
 ;; use 'M-x doom/reload'.
 
-(package! tao-theme)
-(package! mixed-pitch)
 (package! olivetti)
 (package! org-super-agenda)
 (package! org-fancy-priorities)

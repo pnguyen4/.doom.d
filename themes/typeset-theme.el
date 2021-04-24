@@ -1,24 +1,27 @@
 ;; typeset-theme.el
 ;;
 ;; Author: Phillip Nguyen
-;; Version: 0.23
+;; Version: 0.24
 
 (deftheme typeset
   "Syntax typesetting over syntax highlighting")
 
-(let ((bg-alt       "#F5F5F5")
-      (bg-alt-meta  "#E5E5E5")
-      (bg-highlight "#BBBBBB")
-      (fg           "#000000")
-      (fg-light     "#777777"))
+(let ((bg           "#FFFFFF")  ; primary context
+      (bg-alt       "#F5F5F5")  ; secondary context
+      (bg-hl-line   "#E5E5DE")  ; current focus
+      (bg-match     "#FFFF88")  ; first search match
+      (bg-meta      "#E5E5E5")  ; tertiary context / meta information
+      (bg-region    "#BBBBBB")  ; selection
+      (fg           "#000000")  ; primary content
+      (fg-light     "#777777")) ; secondary content
 
   (custom-theme-set-faces
    'typeset
 
    ;; standard
    `(font-lock-builtin-face       ((t (:foreground ,fg))))
-   `(font-lock-comment-face       ((t (:foreground ,fg-light  ; to differentiate context
-                                       :slant italic          ; then to re-emphasize them
+   `(font-lock-comment-face       ((t (:foreground ,fg-light  ; to shift context
+                                       :slant italic          ; to re-emphasize
                                        :width normal))))
    `(font-lock-constant-face      ((t (:foreground ,fg))))
    `(font-lock-doc-face           ((t (:inherit font-lock-string-face))))
@@ -30,30 +33,35 @@
    `(font-lock-type-face          ((t (:foreground ,fg))))
    `(font-lock-variable-name-face ((t (:foreground ,fg))))
    `(font-lock-warning-face       ((t (:inherit warning))))
-   `(region ((t (:foreground ,fg :background ,bg-highlight :extend t))))
+   `(match  ((t (:background ,bg-match))))
+   `(region ((t (:foreground ,fg :background ,bg-region :extend t))))
 
    ;; company
-   `(company-scrollbar-bg       ((t (:background ,bg-alt-meta))))
-   `(company-scrollbar-fg       ((t (:background ,bg-highlight))))
+   `(company-scrollbar-bg       ((t (:background ,bg-meta))))
+   `(company-scrollbar-fg       ((t (:background ,bg-region))))
    `(company-tooltip            ((t (:background ,bg-alt))))
    `(company-tooltip-annotation ((t (:foreground ,fg-light :slant oblique))))
    `(company-tooltip-common     ((t (:foreground ,fg :weight bold))))
-   `(company-tooltip-selection  ((t (:background ,bg-highlight :foreground ,fg))))
+   `(company-tooltip-selection  ((t (:background ,bg-hl-line :foreground ,fg))))
 
    ;; dired
    `(diredfl-date-time   ((t (:foreground ,fg-light))))
-   `(diredfl-dir-heading ((t (:background ,bg-alt-meta :foreground ,fg :underline ,fg))))
-   `(diredfl-dir-name    ((t (:background nil :foreground ,fg :weight extra-bold))))
+   `(diredfl-dir-heading ((t (:background ,bg-meta
+                              :foreground ,fg
+                              :underline ,fg))))
+   `(diredfl-dir-name    ((t (:background ,bg
+                              :foreground ,fg
+                              :weight extra-bold))))
    `(diredfl-file-name   ((t (:foreground ,fg))))
    `(diredfl-file-suffix ((t (:foreground ,fg))))
-   `(diredfl-dir-priv    ((t (:background nil :weight ultra-bold))))
-   `(diredfl-exec-priv   ((t (:background nil))))
-   `(diredfl-no-priv     ((t (:background nil))))
+   `(diredfl-dir-priv    ((t (:background ,bg :weight ultra-bold))))
+   `(diredfl-exec-priv   ((t (:background ,bg))))
+   `(diredfl-no-priv     ((t (:background ,bg))))
    `(diredfl-number      ((t (:foreground ,fg))))
-   `(diredfl-rare-priv   ((t (:background nil :weight ultra-bold))))
-   `(diredfl-read-priv   ((t (:background nil))))
+   `(diredfl-rare-priv   ((t (:background ,bg :weight ultra-bold))))
+   `(diredfl-read-priv   ((t (:background ,bg))))
    `(diredfl-symlink     ((t (:inherit link :underline nil))))
-   `(diredfl-write-priv  ((t (:background nil))))
+   `(diredfl-write-priv  ((t (:background ,bg))))
 
    ;; doom
    `(doom-modeline-project-dir ((t (:inherit doom-modeline-project-root-dir))))
@@ -71,10 +79,13 @@
    `(git-gutter-fr:modified ((t (:foreground ,fg-light))))
 
    ;; hl-line
-   `(hl-line ((t (:background "#E5E5DE"))))
+   `(hl-line ((t (:background ,bg-hl-line))))
+
+   ;; isearch
+   `(isearch ((t (:inherit match))))
 
    ;; ivy
-   `(ivy-current-match ((t (:background ,bg-highlight :foreground ,fg))))
+   `(ivy-current-match ((t (:background ,bg-hl-line :foreground ,fg))))
 
    ;; lisp
    `(highlight-quoted-symbol ((t (:foreground ,fg))))
@@ -93,16 +104,14 @@
    `(markdown-header-face-4         ((t (:height 1.20 :weight bold))))
    `(markdown-header-face-5         ((t (:height 1.10 :weight bold))))
    `(markdown-header-face-6         ((t (:height 1.00 :weight bold))))
-   `(markdown-language-keyword-face ((t (:background nil :foreground ,fg-light))))
-   `(markdown-markup-face           ((t (:inherit markdown-language-keyword-face))))
+   `(markdown-language-keyword-face ((t (:background ,bg :foreground ,fg-light))))
+   `(markdown-markup-face           ((t (:background ,bg :foreground ,fg-light))))
 
    ;; minibuffer
-   `(minibuffer-prompt ((t (:background ,bg-alt-meta :foreground ,fg))))
+   `(minibuffer-prompt ((t (:background ,bg-meta :foreground ,fg))))
 
    ;; mode-line (inspired by modus operandi)
-   `(mode-line           ((t (:foreground "#0A0A0A"
-                              :background "#D7D7D7"
-                              :overline "#999999"))))
+   `(mode-line           ((t (:background "#D7D7D7" :overline "#999999"))))
    `(mode-line-emphasis  ((t (:inherit bold))))
    `(mode-line-highlight ((t (:box (:line-width -1 :style pressed-button)))))
    `(mode-line-inactive  ((t (:foreground "#404148"
@@ -111,12 +120,14 @@
 
    ;; org
    `(org-block            ((t (:background ,bg-alt))))
-   `(org-block-begin-line ((t (:background ,bg-alt-meta))))
+   `(org-block-begin-line ((t (:background ,bg-meta))))
    `(org-block-end-line   ((t (:inherit org-block-begin-line))))
    `(org-document-title   ((t (:height 1.50 :weight bold))))
    `(org-document-info    ((t (:foreground ,fg-light))))
    `(org-drawer           ((t (:foreground ,fg-light :weight bold))))
-   `(org-headline-done    ((t (:foreground ,fg-light :weight normal :strike-through t))))
+   `(org-headline-done    ((t (:foreground ,fg-light
+                               :weight normal
+                               :strike-through t))))
    `(org-level-1          ((t (:height 1.30 :weight bold))))
    `(org-level-2          ((t (:height 1.10 :weight bold))))
    `(org-level-3          ((t (:height 1.00 :weight semi-bold))))
@@ -138,18 +149,27 @@
    `(racket-selfeval-face ((t :inherit ,font-lock-constant-face)))
 
    ;; rainbow delimiters -- note that colors run opposite of weight
-   `(rainbow-delimiters-depth-1-face ((t (:foreground ,fg :weight light))))
-   `(rainbow-delimiters-depth-2-face ((t (:foreground ,fg :weight semi-bold))))
-   `(rainbow-delimiters-depth-3-face ((t (:foreground ,fg :weight ultra-bold))))
-   `(rainbow-delimiters-depth-4-face ((t (:foreground ,fg-light :weight light))))
-   `(rainbow-delimiters-depth-5-face ((t (:foreground ,fg-light :weight semi-bold))))
-   `(rainbow-delimiters-depth-6-face ((t (:foreground ,fg-light :weight ultra-bold))))
+   `(rainbow-delimiters-depth-1-face ((t (:foreground ,fg
+                                          :weight light))))
+   `(rainbow-delimiters-depth-2-face ((t (:foreground ,fg
+                                          :weight semi-bold))))
+   `(rainbow-delimiters-depth-3-face ((t (:foreground ,fg
+                                          :weight ultra-bold))))
+   `(rainbow-delimiters-depth-4-face ((t (:foreground ,fg-light
+                                          :weight light))))
+   `(rainbow-delimiters-depth-5-face ((t (:foreground ,fg-light
+                                          :weight semi-bold))))
+   `(rainbow-delimiters-depth-6-face ((t (:foreground ,fg-light
+                                          :weight ultra-bold))))
+
+   ;; swiper
+   `(swiper-match-face-3 ((t (:inherit highlight))))
 
    ;; whichkey
    `(which-key-separator-face ((t (:inherit default))))
 
    ;; workspaces
-   `(+workspace-tab-selected-face ((t (:background ,bg-highlight :foreground ,fg))))))
+   `(+workspace-tab-selected-face ((t (:background ,bg-region :foreground ,fg))))))
 
 ;;;###autoload
 (and load-file-name

@@ -50,7 +50,7 @@
 ;; Use olivetti to center documents
 (use-package! olivetti
   :hook ((text-mode Info-mode) . olivetti-mode)
-  :init (setq olivetti-body-width 90
+  :init (setq olivetti-body-width 95
               treemacs-width 30))
 ;; I'm not sure about this yet
 ;; (add-hook! (prog-mode) #'olivetti-mode)
@@ -79,7 +79,7 @@
   :hook (org-mode . org-appear-mode)
   :custom (org-hide-emphasis-markers t))
 
-;; Automatically toggle LaTeX fragment previews as the cusor enters/exits them
+;; Automatically toggle LaTeX fragment previews as the cursor enters/exits them
 (use-package! org-fragtog
   :after org
   :hook (org-mode . org-fragtog-mode))
@@ -106,6 +106,14 @@
                              (:name "Important" :priority "A")
                              (:name "Overdue"   :deadline past)
                              (:name "Due soon"  :deadline future))))
+
+;; Python LSP (nixos specific)
+(use-package lsp-python-ms
+  :hook (python-mode . (lambda ()
+                         (require 'lsp-python-ms)
+                         (lsp)))
+  :init
+  (setq lsp-python-ms-executable (executable-find "python-language-server")))
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;

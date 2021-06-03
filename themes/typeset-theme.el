@@ -1,7 +1,7 @@
 ;; typeset-theme.el
 ;;
 ;; Author: Phillip Nguyen
-;; Version: 0.25
+;; Version: 0.26
 
 (deftheme typeset
   "Syntax typesetting over syntax highlighting")
@@ -27,8 +27,8 @@
    `(font-lock-function-name-face ((t (:foreground ,fg))))
    `(font-lock-keyword-face       ((t (:foreground ,fg :weight bold))))
    `(font-lock-string-face        ((t (:inherit fixed-pitch-serif
-                                       :slant oblique
-                                       :weight light))))
+                                       ;:slant oblique
+                                       :weight extra-light))))
    `(font-lock-type-face          ((t (:foreground ,fg))))
    `(font-lock-variable-name-face ((t (:foreground ,fg))))
    `(font-lock-warning-face       ((t (:inherit warning))))
@@ -98,7 +98,7 @@
 
    ;; lisp
    `(highlight-quoted-symbol ((t (:foreground ,fg))))
-   `(highlight-quoted-quote  ((t (:inherit default))))
+   `(highlight-quoted-quote  ((t (:inherit font-lock-builtin-face))))
 
    ;; magit
    `(magit-section-heading           ((t (:foreground ,fg :weight bold))))
@@ -228,6 +228,7 @@
 ;; https://arxiv.org/abs/2008.06030
 ;; https://protesilaos.com/modus-themes/
 ;; https://github.com/11111000000/tao-theme-emacs
+;; https://explog.in/notes/poet.html
 ;;
 ;; Special thanks to Xah Lee for clearing up some of the esoteric aspects of emacs
 ;; http://ergoemacs.org/emacs/elisp_define_face.html

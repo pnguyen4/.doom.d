@@ -1,7 +1,7 @@
 ;; typeset-theme.el
 ;;
 ;; Author: Phillip Nguyen
-;; Version: 0.26
+;; Version: 0.27
 
 (deftheme typeset
   "Syntax typesetting over syntax highlighting")
@@ -95,6 +95,14 @@
    ;; ivy
    `(ivy-current-match ((t (:background ,bg-hl-line :foreground ,fg))))
    `(ivy-org           ((t (:inherit fixed-pitch))))
+
+   ;; latex
+   `(font-latex-bold-face ((t (:inherit bold))))
+   `(font-latex-italic-face ((t (:inherit italic))))
+   `(font-latex-sectioning-5-face ((t (:inherit variable-pitch))))
+   `(font-latex-sedate-face ((t (:inherit font-lock-keyword-face))))
+   `(font-latex-math-face ((t (:foreground ,fg))))
+   `(font-latex-script-char-face ((t (:inherit font-lock-keyword-face))))
 
    ;; lisp
    `(highlight-quoted-symbol ((t (:foreground ,fg))))
@@ -191,6 +199,14 @@
 
    ;; swiper
    `(swiper-match-face-3 ((t (:inherit highlight))))
+
+   ;; vterm
+   `(term-color-blue    ((t (:background "#212121" :foreground "#212121"))))
+   `(term-color-cyan    ((t (:background "#ACACAC" :foreground "#ACACAC"))))
+   `(term-color-green   ((t (:background "#848484" :foreground "#848484"))))
+   `(term-color-magenta ((t (:background "#BCBCBC" :foreground "#BCBCBC"))))
+   `(term-color-red     ((t (:background "#CECECE" :foreground "#CECECE"))))
+   `(term-color-yellow  ((t (:background "#424242" :foreground "#424242"))))
 
    ;; whichkey
    `(which-key-separator-face ((t (:inherit default))))

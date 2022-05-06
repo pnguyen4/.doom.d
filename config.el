@@ -33,6 +33,9 @@
 (map! "C-S-V" #'yank                   ; Set intuitive copy/paste keybindings
       "C-S-C" #'kill-ring-save)
 
+;; Prevent Dired from litering emacs with dozens of buffers
+(dired-kill-when-opening-new-dired-buffer t)
+
 ;; Tecosaur has a good point. Doom uses evil, no need to beat a dead horse.
 (setq which-key-allow-multiple-replacements t)
 (after! which-key

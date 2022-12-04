@@ -52,11 +52,9 @@
 
 ;; Use olivetti to center documents
 (use-package! olivetti
-  :hook ((text-mode Info-mode) . olivetti-mode)
-  :init (setq olivetti-body-width 95
-              treemacs-width 30))
-;; I'm not sure about this yet
-;; (add-hook! (prog-mode) #'olivetti-mode)
+  :hook ((text-mode prog-mode Info-mode) . olivetti-mode)
+  :init (setq treemacs-width 30
+              olivetti-body-width 95))
 
 ;; Org Config
 (after! org
@@ -110,13 +108,19 @@
                              (:name "Overdue"   :deadline past)
                              (:name "Due soon"  :deadline future))))
 
-;; Python LSP (nixos specific)
-(use-package lsp-python-ms
-  :hook (python-mode . (lambda ()
-                         (require 'lsp-python-ms)
-                         (lsp)))
-  :init
-  (setq lsp-python-ms-executable (executable-find "python-language-server")))
+;; csharp specific config
+;; So omnisharp-roslyn v1.39.0 removed included mono and msbuild and nixos does not have up-to-date msbuild...
+;; We use older version and symlink ~/.emacs.d/.local/etc/lsp/omnisharp-roslyn/latest/omnisharp-roslyn/bin/mono to $(which mono).
+;(setq lsp-csharp-omnisharp-roslyn-download-url "https://github.com/OmniSharp/omnisharp-roslyn/releases/download/v1.38.2/omnisharp-linux-x64.zip")
+;(setq lsp-lens-place-position '(const above-line))
+
+;(setq +tree-sitter-hl-enabled-modes t)
+;; This actually enables semantic syntax highlighting with tree-sitter and makes it automatically work with lsp-mode
+;(use-package! csharp-mode
+;  :config
+;  (add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-tree-sitter-mode))
+;  (add-hook 'csharp-tree-sitter-mode-hook #'rainbow-delimiters-mode)
+;  (add-hook 'csharp-tree-sitter-mode-hook #'lsp! 'append))
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;

@@ -96,6 +96,9 @@
    `(ivy-current-match ((t (:background ,bg-hl-line :foreground ,fg))))
    `(ivy-org           ((t (:inherit fixed-pitch))))
 
+   ;; javascript
+   `(js2-function-param ((t (:slant oblique))))
+
    ;; latex
    `(font-latex-bold-face ((t (:inherit bold))))
    `(font-latex-italic-face ((t (:inherit italic))))
@@ -107,6 +110,9 @@
    ;; lisp
    `(highlight-quoted-symbol ((t (:foreground ,fg))))
    `(highlight-quoted-quote  ((t (:inherit font-lock-builtin-face))))
+
+   ;; lsp
+   `(lsp-details-face ((t (:inherit variable-pitch :foreground ,fg-light :background ,bg-alt :height .8))))
 
    ;; magit
    `(magit-section-heading           ((t (:foreground ,fg :weight bold))))
@@ -199,6 +205,14 @@
 
    ;; swiper
    `(swiper-match-face-3 ((t (:inherit highlight))))
+
+   ;; tree-sitter syntax highlighting
+   `(tree-sitter-hl-face:function.call       ((t (:slant italic :weight light))))
+   `(tree-sitter-hl-face:method.call         ((t (:inherit tree-sitter-hl-face:function.call))))
+   `(tree-sitter-hl-face:property            ((t (:slant oblique))))
+   `(tree-sitter-hl-face:type                ((t (:weight bold))))
+   `(tree-sitter-hl-face:punctuation.bracket ((t (:inherit tree-sitter-hl-face:keyword))))
+   `(tree-sitter-hl-face:tag                 ((t (:inherit tree-sitter-hl-face:keyword))))
 
    ;; vterm
    `(term-color-blue    ((t (:background "#212121" :foreground "#212121"))))

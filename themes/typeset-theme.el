@@ -1,7 +1,7 @@
 ;; typeset-theme.el
 ;;
 ;; Author: Phillip Nguyen
-;; Version: 0.27
+;; Version: 0.3
 
 (deftheme typeset
   "Syntax typesetting over syntax highlighting")

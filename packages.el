@@ -10,6 +10,7 @@
 (package! org-fancy-priorities)
 (package! org-fragtog)
 (package! org-appear :recipe (:host github :repo "awth13/org-appear"))
+(package! magit-delta :recipe (:host github :repo "dandavison/magit-delta"))
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)

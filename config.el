@@ -108,6 +108,14 @@
                              (:name "Overdue"   :deadline past)
                              (:name "Due soon"  :deadline future))))
 
+;; Add Syntax Highlighting to Git Diffs
+(use-package! magit-delta
+  :hook (magit-mode . magit-delta-mode)
+  :custom
+  (magit-delta-delta-args '("--max-line-distance" "0.6"
+                            "--true-color" "always"
+                            "--color-only"
+                            "--minus-style" "syntax auto")))
 ;; csharp specific config
 ;; So omnisharp-roslyn v1.39.0 removed included mono and msbuild and nixos does not have up-to-date msbuild...
 ;; We use older version and symlink ~/.emacs.d/.local/etc/lsp/omnisharp-roslyn/latest/omnisharp-roslyn/bin/mono to $(which mono).

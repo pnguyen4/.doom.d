@@ -20,7 +20,8 @@
 ;; Basic UI/UX Changes
 (modify-syntax-entry ?_ "w")           ; Treat underscores as word delimiters
 (global-subword-mode 1)                ; Iterate through camelCase words too
-(setq-default tab-width 4)             ; This is what I like
+(setq-default tab-width 4              ; This is what I like
+              js-indent-level 4)
 (setq rainbow-delimiters-max-face-count 6
       display-line-numbers-type nil    ; No line numbers
       which-key-idle-delay 0.2         ; Make which-key help popup appear sooner
@@ -28,7 +29,6 @@
       evil-split-window-below t        ; Switch to the new window after splitting
       evil-vsplit-window-right t
       evil-want-fine-undo t            ; More granular undos
-      +ivy-buffer-preview t            ; Preview buffer before switching
       company-show-numbers t)          ; Autocomplete with M-[0,9]
 (map! "C-S-V" #'yank                   ; Set intuitive copy/paste keybindings
       "C-S-C" #'kill-ring-save)
@@ -49,6 +49,11 @@
 ;; Use mixed pitch for org files, markdown files, and info pages
 ;; Certain faces are forced to be fixed-width by theme
 (add-hook! (gfm-mode markdown-mode Info-mode org-mode) #'variable-pitch-mode)
+
+;; Don't use line numbers for these modes
+;(defun nolinum()
+;  (display-line-numbers-mode 0))
+;(add-hook! (gfm-mode markdown-mode Info-mode org-mode) 'nolinum)
 
 ;; Use olivetti to center documents
 (use-package! olivetti
@@ -116,19 +121,72 @@
                             "--true-color" "always"
                             "--color-only"
                             "--minus-style" "syntax auto")))
-;; csharp specific config
-;; So omnisharp-roslyn v1.39.0 removed included mono and msbuild and nixos does not have up-to-date msbuild...
-;; We use older version and symlink ~/.emacs.d/.local/etc/lsp/omnisharp-roslyn/latest/omnisharp-roslyn/bin/mono to $(which mono).
-;(setq lsp-csharp-omnisharp-roslyn-download-url "https://github.com/OmniSharp/omnisharp-roslyn/releases/download/v1.38.2/omnisharp-linux-x64.zip")
-;(setq lsp-lens-place-position '(const above-line))
 
-;(setq +tree-sitter-hl-enabled-modes t)
-;; This actually enables semantic syntax highlighting with tree-sitter and makes it automatically work with lsp-mode
-;(use-package! csharp-mode
-;  :config
-;  (add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-tree-sitter-mode))
-;  (add-hook 'csharp-tree-sitter-mode-hook #'rainbow-delimiters-mode)
-;  (add-hook 'csharp-tree-sitter-mode-hook #'lsp! 'append))
+;; Silences annoying LSP javascript error popup
+;; Work around null bytes in JSON response from typescript-language-server
+;; Should be fixed in Emacs 29
+(use-package! lsp-mode
+  :defer t
+
+  :custom
+  (lsp-completion-provider :none) ;; we use Corfu!
+
+  :init
+  (defun my/lsp-mode-setup-completion ()
+    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+          '(flex))) ;; Configure flex
+
+  :hook
+  (lsp-completion-mode . my/lsp-mode-setup-completion)
+
+  :config
+  (advice-add 'json-parse-string :around
+              (lambda (orig string &rest rest)
+                (apply orig (s-replace "\\u0000" "" string)
+                       rest)))
+  (advice-add 'json-parse-buffer :around
+              (lambda (orig &rest rest)
+                (while (re-search-forward "\\u0000" nil t)
+                  (replace-match ""))
+                (apply orig rest))))
+
+
+;; Fixes https://github.com/doomemacs/doomemacs/issues/6466
+
+(defun +new-lsp-eglot-prefer-flycheck-h ()
+  (when eglot--managed-mode
+    (flymake-mode -1)
+    (when-let ((current-checker (flycheck-get-checker-for-buffer)))
+      (unless (equal current-checker 'eglot)
+        (flycheck-add-next-checker 'eglot current-checker)))
+    (flycheck-add-mode 'eglot major-mode)
+    (flycheck-mode 1)))
+
+(advice-add '+lsp-eglot-prefer-flycheck-h
+            :override #'+new-lsp-eglot-prefer-flycheck-h)
+
+(defun +new-lsp--flycheck-eglot--on-diagnostics (diags &rest _)
+  (cl-labels
+      ((flymake-diag->flycheck-err
+        (diag)
+        (with-current-buffer (flymake--diag-buffer diag)
+          (flycheck-error-new-at-pos
+           (flymake--diag-beg diag)
+           (pcase (flymake--diag-type diag)
+             ('eglot-note 'info)
+             ('eglot-warning 'warning)
+             ('eglot-error 'error)
+             (_ (error "Unknown diagnostic type, %S" diag)))
+           (flymake--diag-text diag)
+           :end-pos (flymake--diag-end diag)
+           :checker 'eglot
+           :buffer (current-buffer)
+           :filename (buffer-file-name)))))
+    (setq +lsp--flycheck-eglot--current-errors
+          (mapcar #'flymake-diag->flycheck-err diags))))
+
+(advice-add '+lsp--flycheck-eglot--on-diagnostics
+            :override #'+new-lsp--flycheck-eglot--on-diagnostics)
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;

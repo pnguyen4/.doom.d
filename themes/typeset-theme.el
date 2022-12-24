@@ -34,6 +34,7 @@
    `(font-lock-warning-face       ((t (:inherit warning))))
    `(match  ((t (:background ,bg-match))))
    `(region ((t (:foreground ,fg :background ,bg-region :extend t))))
+   `(line-number ((t (:background ,bg-alt)))) ;;; not sure about this yet...
 
    ;; company
    `(company-scrollbar-bg       ((t (:inherit fixed-pitch
@@ -76,6 +77,9 @@
    `(doom-dashboard-loaded     ((t (:inherit default :foreground ,fg-light))))
    `(doom-dashboard-banner     ((t (:inherit doom-dashboard-loaded))))
 
+   ;; eglot
+   `(eglot-highlight-symbol-face ((t (:inherit highlight))))
+
    ;; ein
    `(ein:cell-input-area ((t (:background ,bg-alt))))
 
@@ -111,7 +115,7 @@
    `(highlight-quoted-symbol ((t (:foreground ,fg))))
    `(highlight-quoted-quote  ((t (:inherit font-lock-builtin-face))))
 
-   ;; lsp
+   ;; lsp-mode
    `(lsp-details-face ((t (:inherit variable-pitch :foreground ,fg-light :background ,bg-alt :height .8))))
 
    ;; magit

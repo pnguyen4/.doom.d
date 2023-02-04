@@ -73,9 +73,17 @@
    `(diredfl-write-priv  ((t (:background nil))))
 
    ;; doom
-   `(doom-modeline-project-dir ((t (:inherit doom-modeline-project-root-dir))))
    `(doom-dashboard-loaded     ((t (:inherit default :foreground ,fg-light))))
    `(doom-dashboard-banner     ((t (:inherit doom-dashboard-loaded))))
+   `(doom-modeline-project-dir ((t (:width normal))))
+   `(doom-modeline-project-root-dir ((t (:width normal :weight bold))))
+   `(doom-modeline-buffer-file ((t (:width normal :weight bold))))
+   `(doom-modeline-buffer-path ((t (:width normal :weight bold))))
+   `(doom-modeline-buffer-major-mode ((t (:width normal :weight bold))))
+   `(doom-modeline-buffer-minor-mode ((t (:width normal))))
+   `(doom-modeline-info ((t (:width normal :inherit (success bold)))))
+   `(doom-modeline-highlight ((t (:width normal))))
+   `(doom-modeline-emphasis ((t (:width normal :weight bold))))
 
    ;; eglot
    `(eglot-highlight-symbol-face ((t (:inherit highlight))))

@@ -6,10 +6,10 @@
       user-mail-address "pnguyen4711@gmail.com")
 
 ;; Font config (I make heavy use of italics so I use fonts that support it)
-(setq doom-font (font-spec :family "Iosevka Extended" :size 14)
-      doom-big-font (font-spec :family "Iosevka Extended" :size 30)
-      doom-serif-font (font-spec :family "Iosevka Slab Extended" :size 14)
-      doom-variable-pitch-font (font-spec :family "IBM Plex Serif"))
+(setq doom-font (font-spec :family "Iosevka" :size 15)
+      doom-big-font (font-spec :family "Iosevka " :size 32)
+      doom-serif-font (font-spec :family "Iosevka Slab" :size 15)
+      doom-variable-pitch-font (font-spec :family "IBM Plex Serif" :size 15))
 
 ;; Use this function to list available fonts (uncomment and evaluate with "gr"):
 ;(print (font-family-list))
@@ -21,7 +21,9 @@
 (modify-syntax-entry ?_ "w")           ; Treat underscores as word delimiters
 (global-subword-mode 1)                ; Iterate through camelCase words too
 (setq-default tab-width 4              ; This is what I like
-              js-indent-level 4)
+              typescript-indent-level 2
+              js-indent-level 2)
+(setq doom-modeline-project-detection 'relative-from-project)
 (setq rainbow-delimiters-max-face-count 6
       display-line-numbers-type nil    ; No line numbers
       which-key-idle-delay 0.2         ; Make which-key help popup appear sooner
@@ -128,9 +130,6 @@
 (use-package! lsp-mode
   :defer t
 
-  :custom
-  (lsp-completion-provider :none) ;; we use Corfu!
-
   :init
   (defun my/lsp-mode-setup-completion ()
     (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
@@ -150,43 +149,10 @@
                   (replace-match ""))
                 (apply orig rest))))
 
+;; fixes https://github.com/doomemacs/doomemacs/issues/6949
+(after! lsp-mode
+  (setq lsp-enable-snippet nil))
 
-;; Fixes https://github.com/doomemacs/doomemacs/issues/6466
-
-(defun +new-lsp-eglot-prefer-flycheck-h ()
-  (when eglot--managed-mode
-    (flymake-mode -1)
-    (when-let ((current-checker (flycheck-get-checker-for-buffer)))
-      (unless (equal current-checker 'eglot)
-        (flycheck-add-next-checker 'eglot current-checker)))
-    (flycheck-add-mode 'eglot major-mode)
-    (flycheck-mode 1)))
-
-(advice-add '+lsp-eglot-prefer-flycheck-h
-            :override #'+new-lsp-eglot-prefer-flycheck-h)
-
-(defun +new-lsp--flycheck-eglot--on-diagnostics (diags &rest _)
-  (cl-labels
-      ((flymake-diag->flycheck-err
-        (diag)
-        (with-current-buffer (flymake--diag-buffer diag)
-          (flycheck-error-new-at-pos
-           (flymake--diag-beg diag)
-           (pcase (flymake--diag-type diag)
-             ('eglot-note 'info)
-             ('eglot-warning 'warning)
-             ('eglot-error 'error)
-             (_ (error "Unknown diagnostic type, %S" diag)))
-           (flymake--diag-text diag)
-           :end-pos (flymake--diag-end diag)
-           :checker 'eglot
-           :buffer (current-buffer)
-           :filename (buffer-file-name)))))
-    (setq +lsp--flycheck-eglot--current-errors
-          (mapcar #'flymake-diag->flycheck-err diags))))
-
-(advice-add '+lsp--flycheck-eglot--on-diagnostics
-            :override #'+new-lsp--flycheck-eglot--on-diagnostics)
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
@@ -203,3 +169,6 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
+(use-package! ox-moderncv
+  :after org)

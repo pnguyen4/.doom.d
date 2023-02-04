@@ -12,6 +12,7 @@
 (package! org-appear :recipe (:host github :repo "awth13/org-appear"))
 (package! magit-delta :recipe (:host github :repo "dandavison/magit-delta"))
 (package! keycast :pin "72d9add8ba16e0cae8cfcff7fc050fa75e493b4e")
+(package! ox-moderncv :recipe (:host gitlab :repo "Titan-C/org-cv"))
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)

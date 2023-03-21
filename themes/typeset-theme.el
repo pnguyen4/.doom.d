@@ -1,10 +1,26 @@
-;; typeset-theme.el
-;;
-;; Author: Phillip Nguyen
-;; Version: 0.3
+;;; typeset-theme.el --- My Custom Doom Theme -*- lexical-binding: t -*-
+;; Package-Requires: ((emacs "27.1"))
 
+;;; Commentary:
+;;
+;; Ted Nelson was right.
+;; We ought to be able to program with all the conveniences of printed material, and more.
+;; This isn't necessarily a minimalist or monochrome theme.
+;; Color is used sparingly, and only in the places it makes sense.
+;;
+;; This theme assumse you have configured:
+;; - a sans-serif monospace font as your main programming font
+;; - a serif or slab-serif monospace font as your secondary programming font
+;; - a propertional font for rich text contexts, such as org or markdown
+
+;; Author: Phillip Nguyen
+;; Version: 0.31
+;; URL: https://github.com/pnguyen4/.doom.d
+;; License: GPL-3.0
+
+;;; Code:
 (deftheme typeset
-  "Syntax typesetting over syntax highlighting")
+  "Syntax typesetting over syntax highlighting.")
 
 (let ((bg-alt       "#F5F5F5")  ; secondary context
       (bg-hl-line   "#E5E5DE")  ; current focus
@@ -166,7 +182,7 @@
    `(org-block-end-line   ((t (:inherit org-block-begin-line))))
    `(org-checkbox         ((t (:inherit fixed-pitch))))
    `(org-date             ((t (:inherit fixed-pitch :foreground ,fg-light))))
-   `(org-document-title   ((t (:height 1.50 :weight bold))))
+   `(org-document-title   ((t (:height 2.0 :weight bold))))
    `(org-document-info    ((t (:foreground ,fg-light))))
    `(org-done             ((t (:inherit fixed-pitch))))
    `(org-drawer           ((t (:foreground ,fg-light :weight bold))))
@@ -175,9 +191,9 @@
                                :weight normal
                                :strike-through t))))
    `(org-hide             ((t (:inherit fixed-pitch))))
-   `(org-level-1          ((t (:height 1.30 :weight bold))))
-   `(org-level-2          ((t (:height 1.10 :weight bold))))
-   `(org-level-3          ((t (:height 1.00 :weight semi-bold))))
+   `(org-level-1          ((t (:height 1.50 :weight bold))))
+   `(org-level-2          ((t (:height 1.30 :weight bold))))
+   `(org-level-3          ((t (:height 1.10 :weight semi-bold))))
    `(org-level-4          ((t (:height 1.00 :weight semi-bold))))
    `(org-level-5          ((t (:height 1.00 :weight semi-bold))))
    `(org-level-6          ((t (:height 1.00 :weight semi-bold))))
@@ -185,8 +201,8 @@
    `(org-priority         ((t (:inherit fixed-pitch))))
    `(org-special-keyword  ((t (:inherit fixed-pitch))))
    `(org-table            ((t (:inherit fixed-pitch :foreground ,fg))))
-   `(org-tag              ((t (:inherit fixed-pitch))))
-   `(org-todo             ((t (:inherit fixed-pitch))))
+   `(org-tag              ((t (:inherit fixed-pitch :foreground ,fg-light))))
+   `(org-todo             ((t (:inherit fixed-pitch ))))
    `(org-verbatim         ((t (:inherit fixed-pitch))))
 
    ;; org agenda
@@ -248,6 +264,7 @@
 
 (provide-theme 'typeset)
 
+;;; typeset-theme.el ends here
 
 ;; Influences and Inspirations
 ;; ----------------------------------------------------------------------------------------------
